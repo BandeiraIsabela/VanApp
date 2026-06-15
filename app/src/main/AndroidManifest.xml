@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VanApp">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="YOUR_API_KEY_HERE" />
+
         <activity
             android:name=".CadastroActivity"
             android:exported="false" />
@@ -23,12 +30,17 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SensorActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

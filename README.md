@@ -2,71 +2,54 @@
 
 O **VanGo** é um aplicativo Android desenvolvido em Kotlin que simula um sistema de transporte corporativo, onde funcionários podem visualizar rotas de vans disponibilizadas pela empresa e confirmar seu embarque.
 
-Este projeto foi desenvolvido como atividade prática da disciplina de **Desenvolvimento Mobile**, com foco na aplicação de boas práticas de arquitetura, navegação e interface.
+Este projeto foi atualizado para atender a requisitos avançados de arquitetura e funcionalidades nativas.
 
 ---
 
 ## 📱 Funcionalidades
 
-* 🔐 Login com validação de usuário
-* 📝 Cadastro de usuário com armazenamento local (SharedPreferences)
-* 📋 Listagem de vans disponíveis
-* 🚐 Visualização de detalhes da rota (motorista e horário)
-* ✅ Confirmação de embarque
-* 🔙 Navegação entre telas com botão de retorno
+* 🔐 **Login e Cadastro**: Autenticação com persistência de preferências do usuário.
+* 📋 **Listagem de Vans**: Consumo de API REST para obter dados de rotas.
+* 💾 **Persistência Local**: Armazenamento em banco de dados Room para suporte offline.
+* 📍 **Mapas**: Integração com Google Maps para visualização de localização.
+* 📳 **Sensores**: Uso do acelerômetro para detecção de movimento.
+* 🧪 **Testes**: Implementação de testes unitários para garantir a qualidade do código.
 
 ---
 
-## 🧠 Tecnologias e Conceitos Utilizados
+## 🧠 Tecnologias e Arquitetura
 
-* Kotlin
-* Android Studio
-* Arquitetura MVVM (ViewModel + LiveData)
-* ConstraintLayout e LinearLayout
-* Material Design 3
-* Intents e passagem de dados entre telas
-* SharedPreferences (persistência local)
-* ListView com Adapter customizado
+* **Arquitetura MVVM**: Separação clara de responsabilidades (View, ViewModel, Repository, Model).
+* **Retrofit**: Consumo de API RESTful.
+* **Room Database**: Persistência de dados local com SQLite.
+* **Coroutines & Flow**: Processamento assíncrono em threads secundárias.
+* **SharedPreferences**: Armazenamento de preferências simples (Login).
+* **Google Maps SDK**: Visualização de mapas.
+* **Sensor Manager**: Acesso ao acelerômetro do dispositivo.
+* **JUnit & Mockito**: Testes unitários.
 
 ---
 
-## 🎨 Interface
+## 🛠️ Modificações Realizadas
 
-O aplicativo possui uma interface moderna inspirada em apps como o Uber, utilizando:
-
-* MaterialCardView para organização em cards
-* Header estilizado
-* Componentes visuais limpos e responsivos
+1.  **Arquitetura**: Refatoração do `VanRepository` e `VanViewModel` para seguir o padrão MVVM rigorosamente com Coroutines.
+2.  **Persistência**: Implementação do Room (`AppDatabase`, `VanDao`, `VanEntity`) para salvar as rotas localmente.
+3.  **Novas Telas**: Adição da `MapActivity` (Google Maps) e `SensorActivity` (Acelerômetro), totalizando 6 telas.
+4.  **API REST**: Atualização do fluxo de dados para sincronizar a API com o banco de dados local.
+5.  **Testes**: Criação da classe `VanViewModelTest` com JUnit e Mockito.
+6.  **Dependências**: Atualização do `build.gradle.kts` e `libs.versions.toml` para incluir Room, Maps e ferramentas de teste.
 
 ---
 
 ## 🚀 Como Executar o Projeto
 
-1. Clone o repositório:
-
-```
-git clone https://github.com/seu-usuario/VanGo.git
-```
-
-2. Abra no Android Studio
-3. Aguarde o Gradle sincronizar
-4. Execute o projeto em um emulador ou dispositivo físico
+1. Clone o repositório.
+2. No `AndroidManifest.xml`, adicione sua chave do Google Maps em `YOUR_API_KEY_HERE`.
+3. Abra no Android Studio e sincronize o Gradle.
+4. Execute em um emulador ou dispositivo físico.
 
 ---
 
-## 🎯 Objetivo do Projeto
+## 🎯 Objetivo Acadêmico
 
-Aplicar conceitos fundamentais do desenvolvimento mobile Android, incluindo:
-
-* Organização de código
-* Experiência do usuário (UX/UI)
-* Navegação entre telas
-* Persistência de dados
-
----
-
-## 📌 Observações
-
-Este projeto é acadêmico e não possui integração com backend ou banco de dados real, utilizando armazenamento local para simulação.
-
----
+Demonstrar o domínio de conceitos fundamentais e avançados do ecossistema Android, desde o consumo de serviços externos até a interação com hardware e persistência robusta.

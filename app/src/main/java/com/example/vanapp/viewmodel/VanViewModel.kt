@@ -1,22 +1,25 @@
 package com.example.vanapp.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.vanapp.model.Van
 import com.example.vanapp.repository.VanRepository
+import kotlinx.coroutines.launch
 
-class VanViewModel : ViewModel() {
+class VanViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = VanRepository()
+    private val repository = VanRepository(application)
 
-    private val vans = MutableLiveData<List<Van>>()
-
-    fun getVans(): LiveData<List<Van>> = vans
+    private val _vans = MutableLiveData<List<Van>>()
+    val vans: LiveData<List<Van>> = _vans
 
     fun carregarVans() {
-        repository.buscarVans { lista ->
-            vans.value = lista
+        viewModelScope.launch {
+            val result = repository.getVans()
+            _vans.postValue(result)
         }
     }
 }

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.vanapp.viewmodel.VanViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,12 +20,13 @@ class MainActivity : AppCompatActivity() {
         val nomeUsuario = intent.getStringExtra("usuario")
         val txtUsuario = findViewById<TextView>(R.id.txtUsuario)
         val listView = findViewById<ListView>(R.id.listView)
+        val fabMap = findViewById<FloatingActionButton>(R.id.fabAdd)
 
         txtUsuario.text = "Bem-vindo, $nomeUsuario"
 
         viewModel = ViewModelProvider(this).get(VanViewModel::class.java)
 
-        viewModel.getVans().observe(this) { vans ->
+        viewModel.vans.observe(this) { vans ->
             val adapter = VanAdapter(this, vans)
             listView.adapter = adapter
 
@@ -37,6 +39,16 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra("horario", van.horario)
                 startActivity(intent)
             }
+        }
+
+        fabMap.setOnClickListener {
+            startActivity(Intent(this, MapActivity::class.java))
+        }
+
+        // Adicionando um clique longo no FAB para abrir os Sensores (opcional, para ter 6 telas ou fácil acesso)
+        fabMap.setOnLongClickListener {
+            startActivity(Intent(this, SensorActivity::class.java))
+            true
         }
 
         viewModel.carregarVans()

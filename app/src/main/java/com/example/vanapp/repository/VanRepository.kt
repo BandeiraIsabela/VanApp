@@ -1,33 +1,32 @@
 package com.example.vanapp.repository
 
+import android.content.Context
+import com.example.vanapp.database.AppDatabase
 import com.example.vanapp.model.Van
 import com.example.vanapp.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class VanRepository {
+class VanRepository(context: Context) {
 
-    fun buscarVans(callback: (List<Van>) -> Unit) {
+    private val vanDao = AppDatabase.getDatabase(context).vanDao()
 
-        RetrofitClient.api.getUsers().enqueue(object : Callback<List<com.example.vanapp.model.User>> {
-
-            override fun onResponse(
-                call: Call<List<com.example.vanapp.model.User>>,
-                response: Response<List<com.example.vanapp.model.User>>
-            ) {
-                val users = response.body() ?: emptyList()
-
-                val vans = users.map {
-                    Van(it.name, "Motorista X", "07:00")
+    suspend fun getVans(): List<Van> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = RetrofitClient.api.getUsers().execute()
+                if (response.isSuccessful) {
+                    val users = response.body() ?: emptyList()
+                    val vansFromApi = users.map {
+                        Van(rota = it.name, motorista = "Motorista ${it.id}", horario = "07:00")
+                    }
+                    vanDao.deleteAll()
+                    vanDao.insertAll(vansFromApi)
                 }
-
-                callback(vans)
+            } catch (e: Exception) {
+                // Fallback to local data if network fails
             }
-
-            override fun onFailure(call: Call<List<com.example.vanapp.model.User>>, t: Throwable) {
-                callback(emptyList())
-            }
-        })
+            vanDao.getAllVans()
+        }
     }
 }
