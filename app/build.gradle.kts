@@ -61,7 +61,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     
     // Maps
-    implementation(libs.play-services-maps)
+    implementation(libs.osmdroid.android)
 
     // Testing
     testImplementation(libs.junit)
